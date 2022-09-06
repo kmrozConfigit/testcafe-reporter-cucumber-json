@@ -1,4 +1,4 @@
-import { TestRunInfo, BrowserInfo } from './reporter-interface';
+import { TestRunInfo, BrowserInfo, Meta } from './reporter-interface';
 
 export interface MultiBrowserFeatureReport {
   [userAgent: string]: FeatureReport;
@@ -58,7 +58,7 @@ export interface Step {
   name: string;
   result: StepResult;
   tags: Tag[];
-  text: string[];
+  //text: string[];
 }
 export interface Match {
   location: string;
@@ -78,7 +78,8 @@ export interface Tag {
 export const testcafeDefaultStep: Step = {
   hidden: false,
   image: undefined,
-  keyword: '>',
+  //keyword: '>',
+  keyword: '',
   match: {
     location: '',
   },
@@ -89,7 +90,7 @@ export const testcafeDefaultStep: Step = {
     status: 'passed',
   },
   tags: [],
-  text: ['text'],
+  //text: ['text'],
 };
 
 export interface CustomReportData {
@@ -98,7 +99,11 @@ export interface CustomReportData {
 }
 export interface CucumberJsonReportInterface {
   createFeature: (name: string, path: string) => CucumberJsonReportInterface;
-  createScenario: (name: string, testRunInfo: TestRunInfo) => CucumberJsonReportInterface;
+  createScenario: (
+    name: string,
+    testRunInfo: TestRunInfo,
+    meta: Meta,
+  ) => CucumberJsonReportInterface;
   currentFeature: MultiBrowserFeatureReport | undefined;
   currentScenario: MultiBrowserScenario | undefined;
   finalizeWith: (

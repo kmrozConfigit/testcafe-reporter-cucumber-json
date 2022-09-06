@@ -1,7 +1,7 @@
 {
-  "name": "testcafe-reporter-cucumber-json",
-  "version": "6.3.0",
-  "description": "Cucumber JSON TestCafe reporter plugin.",
+  "name": "gherkin-testcafe-reporter-cucumber-json",
+  "version": "1.0.0",
+  "description": "Cucumber JSON TestCafe reporter plugin for gherkin-testcafe steps.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "bin": {
@@ -25,8 +25,9 @@
     "type": "git",
     "url": "git+https://github.com/hdorgeval/testcafe-reporter-cucumber-json.git"
   },
-  "author": "Henri d'Orgeval",
+  "author": "Henri d'Orgeval and Krzysztof Mróz",
   "keywords": [
+    "gherkin",
     "testcafe",
     "reporter",
     "plugin",

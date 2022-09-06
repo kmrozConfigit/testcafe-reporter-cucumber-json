@@ -1,6 +1,6 @@
 import { CucumberJsonReport } from './cucumber-json';
 import { extendedReporterPlugin } from './reporter';
-import { CallsiteError, TestRunInfo } from './reporter-interface';
+import { CallsiteError, Meta, TestRunInfo } from './reporter-interface';
 
 exports['default'] = () => {
   const report = new CucumberJsonReport();
@@ -20,8 +20,8 @@ exports['default'] = () => {
         report,
       );
     },
-    reportTestDone(name: string, testRunInfo: TestRunInfo) {
-      extendedReporterPlugin.reportTestDone.call(this, name, testRunInfo, report);
+    reportTestDone(name: string, testRunInfo: TestRunInfo, meta: Meta) {
+      extendedReporterPlugin.reportTestDone.call(this, name, testRunInfo, meta, report);
     },
     renderErrors(errs: CallsiteError[]) {
       return extendedReporterPlugin.renderErrors.call(this, errs);

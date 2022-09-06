@@ -25,6 +25,7 @@ export interface ExtendedReporter {
   reportTestDone: (
     name: string,
     testRunInfo: TestRunInfo,
+    meta: Meta,
     report: CucumberJsonReportInterface,
   ) => void;
   reportTaskDone: (
@@ -174,4 +175,14 @@ export interface ReporterlPluginHost {
   newline: () => ReporterlPluginHost;
   chalk: Chalk;
   formatError: (err: CallsiteError, prefix: string) => string;
+}
+
+export interface Steps {
+  type: string;
+  text: string;
+}
+
+export interface Meta {
+  failIndex: number;
+  steps: Steps[];
 }

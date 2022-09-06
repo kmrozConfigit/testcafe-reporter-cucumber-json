@@ -5,7 +5,12 @@ import {
   nativeSetIndent,
   nativeWrite,
 } from './reporter-helpers';
-import { CallsiteError, ExtendedReporterPlugin, TestRunInfo } from './reporter-interface';
+import {
+  CallsiteError,
+  ExtendedReporterPlugin,
+  TestRunInfo,
+  Meta,
+} from './reporter-interface';
 import { filterStackFramesIn, getAllFilesIn, stackFramesOf } from './stack-frames-parser';
 import { removeCommonFirstLines } from './remove-common-first-lines';
 import * as chalk from 'chalk';
@@ -27,9 +32,10 @@ export const extendedReporterPlugin: ExtendedReporterPlugin = {
   reportTestDone(
     name: string,
     testRunInfo: TestRunInfo,
+    meta: Meta,
     report: CucumberJsonReportInterface,
   ) {
-    report.createScenario(name, testRunInfo);
+    report.createScenario(name, testRunInfo, meta);
 
     const browsers = new Set(
       testRunInfo.browsers.map((browser) => browser.prettyUserAgent),

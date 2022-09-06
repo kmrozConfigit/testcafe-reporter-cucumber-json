@@ -17,7 +17,7 @@ import {
   userAgentToFilename,
   dateToFilename,
 } from './fs';
-import { TestRunInfo, CallsiteError, BrowserInfo } from './reporter-interface';
+import { TestRunInfo, CallsiteError, BrowserInfo, Meta } from './reporter-interface';
 import { distinct, tagsFromDescription } from './tags-parser';
 import { getBrowserFrom, getDeviceFrom, getPlatformFrom } from './user-agent-parser';
 import { getDeviceFromBrowserInfo } from './device-parser';
@@ -181,6 +181,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
   public createScenario = (
     name: string,
     testRunInfo: TestRunInfo,
+    meta: Meta,
   ): CucumberJsonReportInterface => {
     const newScenario: MultiBrowserScenario = {};
     this._userAgents.forEach((userAgent) => {
@@ -213,6 +214,24 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
         type: 'scenario',
         uri: '',
       };
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const keywords: any = {
+        Context: 'Given ',
+        Action: 'When ',
+        Outcome: 'Then ',
+      };
+      meta.steps.forEach((step, index) => {
+        // eslint-disable-next-line no-empty
+        if (index === 0) {
+        } else if (index < meta.failIndex || meta.failIndex === undefined) {
+          scenario.steps.push(this.createStep(keywords[step.type], step.text, 'passed'));
+        } else if (index === meta.failIndex) {
+          scenario.steps.push(this.createStep(keywords[step.type], step.text, 'failed'));
+        } else {
+          scenario.steps.push(this.createStep(keywords[step.type], step.text, 'skipped'));
+        }
+      });
 
       newScenario[userAgent] = scenario;
     });
@@ -352,18 +371,37 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
     const step: Step = {
       ...testcafeDefaultStep,
       name: sourceLine || 'undefined',
+      hidden: true,
       result: {
         duration: testRunInfo.durationMs,
         error_message: undefined,
         status: stepStatus,
       },
-      text: [`<a href="#">${sourceLine || ''}</a>`],
+      //text: [`<a href="#">${sourceLine || ''}</a>`],
     };
     if (this.currentFeature) {
       step.match = {
         location: `${this.currentFeature[browserName].uri}:${sourceLineIndex || 0}`,
       };
     }
+    return step;
+  };
+
+  private createStep = (keyword: string, name: string, stepStatus: StepStatus): Step => {
+    const sourceLine = name;
+
+    const step: Step = {
+      ...testcafeDefaultStep,
+      name: sourceLine || 'undefined',
+      result: {
+        error_message: undefined,
+        status: stepStatus,
+        // have no information about step duration
+        duration: 0,
+      },
+      keyword: keyword,
+      //text: [`${sourceLine || ''}`],
+    };
     return step;
   };
 
