@@ -58,7 +58,6 @@ export interface Step {
   name: string;
   result: StepResult;
   tags: Tag[];
-  //text: string[];
 }
 export interface Match {
   location: string;
@@ -78,7 +77,6 @@ export interface Tag {
 export const testcafeDefaultStep: Step = {
   hidden: false,
   image: undefined,
-  //keyword: '>',
   keyword: '',
   match: {
     location: '',
@@ -90,7 +88,6 @@ export const testcafeDefaultStep: Step = {
     status: 'passed',
   },
   tags: [],
-  //text: ['text'],
 };
 
 export interface CustomReportData {
