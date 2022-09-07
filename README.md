@@ -1,4 +1,4 @@
-# JSON TestCafe Reporter [![npm version](https://img.shields.io/npm/v/testcafe-reporter-cucumber-json.svg)](https://www.npmjs.com/package/gherkin-testcafe-reporter-cucumber-json) for gherkin-testcafe based on JSON TestCafé Reporter [![npm version](https://img.shields.io/npm/v/testcafe-reporter-cucumber-json.svg)](https://www.npmjs.com/package/testcafe-reporter-cucumber-json)
+# JSON TestCafe Reporter [![npm version](https://img.shields.io/npm/v/testcafe-reporter-cucumber-json.svg)](https://www.npmjs.com/package/testcafe-reporter-cucumber-json-gherkin-testcafe) for gherkin-testcafe based on JSON TestCafé Reporter [![npm version](https://img.shields.io/npm/v/testcafe-reporter-cucumber-json.svg)](https://www.npmjs.com/package/testcafe-reporter-cucumber-json)
 
 This is the **JSON** reporter plugin for [TestCafé](http://devexpress.github.io/testcafe) intergrated with [gherkin-testcafe](https://www.npmjs.com/package/gherkin-testcafe)
 
@@ -20,4 +20,13 @@ Modification is based on the version 6.3.0 of Look at the JSON TestCafé Reporte
 
 ## Knowlege
 
-TestCafe dynamically loads reporters based on their names. For example, when we set on the command line --reporter foo, TestCafe looks for a folder named testcafe-reporter-foo in the node_modules folder.
+TestCafe dynamically loads reporters based on their names. For example, when we set on the command line --reporter foo, TestCafe looks for a folder named testcafe-reporter-foo in the node_modules folder. So in .testcaferc.json configuration should contains reporter name e.g. 
+```
+ ...
+ "reporter": [
+        {
+            "name": "cucumber-json-gherkin-testcafe",
+            "output": "reports/report.json"
+        },
+ ...
+```
