@@ -209,7 +209,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
         skipped: testRunInfo.skipped,
         sourceLine: 'undefined',
         status: step.result.status,
-        steps: [step],
+        steps: [],
         tags: [],
         type: 'scenario',
         uri: '',
@@ -222,14 +222,19 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
         Outcome: 'Then ',
       };
       meta.steps.forEach((step, index) => {
-        // eslint-disable-next-line no-empty
-        if (index === 0) {
-        } else if (index < meta.failIndex || meta.failIndex === undefined) {
-          scenario.steps.push(this.createStep(keywords[step.type], step.text, 'passed'));
+        const duration = index === 0 ? testRunInfo.durationMs : 0;
+        if (index < meta.failIndex || meta.failIndex === undefined) {
+          scenario.steps.push(
+            this.createStep(keywords[step.type], step.text, 'passed', duration),
+          );
         } else if (index === meta.failIndex) {
-          scenario.steps.push(this.createStep(keywords[step.type], step.text, 'failed'));
+          scenario.steps.push(
+            this.createStep(keywords[step.type], step.text, 'failed', duration),
+          );
         } else {
-          scenario.steps.push(this.createStep(keywords[step.type], step.text, 'skipped'));
+          scenario.steps.push(
+            this.createStep(keywords[step.type], step.text, 'skipped', duration),
+          );
         }
       });
 
@@ -281,6 +286,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
   public withBrowserError = (
     error: string | undefined,
     browser: string,
+    step: number,
   ): CucumberJsonReportInterface => {
     if (!error) {
       return this;
@@ -300,7 +306,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
       return this;
     }
 
-    const currentStep = steps[steps.length - 1];
+    const currentStep = steps[step];
     currentStep.result.error_message = error;
 
     return this;
@@ -309,6 +315,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
   public withBrowserScreenshots = (
     paths: string[] | undefined,
     browser: string,
+    step: number,
   ): CucumberJsonReportInterface => {
     if (!Array.isArray(paths)) {
       return this;
@@ -332,7 +339,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
       return this;
     }
 
-    const currentStep = steps[steps.length - 1];
+    const currentStep = steps[step];
     currentStep.image = paths.map(toBase64DataImageUrl).filter(isDefined);
 
     return this;
@@ -371,7 +378,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
     const step: Step = {
       ...testcafeDefaultStep,
       name: sourceLine || 'undefined',
-      hidden: true,
+      hidden: false,
       result: {
         duration: testRunInfo.durationMs,
         error_message: undefined,
@@ -387,7 +394,12 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
     return step;
   };
 
-  private createStep = (keyword: string, name: string, stepStatus: StepStatus): Step => {
+  private createStep = (
+    keyword: string,
+    name: string,
+    stepStatus: StepStatus,
+    duration: number,
+  ): Step => {
     const sourceLine = name;
 
     const step: Step = {
@@ -397,10 +409,9 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
         error_message: undefined,
         status: stepStatus,
         // have no information about step duration
-        duration: 0,
+        duration: duration,
       },
       keyword: keyword,
-      //text: [`${sourceLine || ''}`],
     };
     return step;
   };

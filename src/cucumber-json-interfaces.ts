@@ -120,10 +120,12 @@ export interface CucumberJsonReportInterface {
   withBrowserError: (
     error: string | undefined,
     userAgent: string,
+    step: number,
   ) => CucumberJsonReportInterface;
   withBrowserScreenshots: (
     path: string[] | undefined,
     userAgent: string,
+    step: number,
   ) => CucumberJsonReportInterface;
 
   withBrowserInfo: (

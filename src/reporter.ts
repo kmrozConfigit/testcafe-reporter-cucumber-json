@@ -55,7 +55,7 @@ export const extendedReporterPlugin: ExtendedReporterPlugin = {
       const screenshots = testRunInfo.screenshots
         .filter((s) => s.testRunId === testRunId)
         .map((s) => s.screenshotPath);
-      report.withBrowserScreenshots(screenshots, browser);
+      report.withBrowserScreenshots(screenshots, browser, meta.failIndex);
 
       const callsiteErrors = (testRunInfo.errs || []).filter(
         (err) => err.testRunId === testRunId,
@@ -65,7 +65,7 @@ export const extendedReporterPlugin: ExtendedReporterPlugin = {
       }
 
       const formattedErrorMessage = this.renderErrors(callsiteErrors);
-      report.withBrowserError(formattedErrorMessage, browser);
+      report.withBrowserError(formattedErrorMessage, browser, meta.failIndex);
     });
   },
   reportTaskDone(
