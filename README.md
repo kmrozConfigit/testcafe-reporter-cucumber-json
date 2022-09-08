@@ -20,7 +20,7 @@ Modification is based on the version 6.3.0 of Look at the JSON TestCafé Reporte
 
 ## Knowlege
 
-TestCafe dynamically loads reporters based on their names. For example, when we set on the command line --reporter foo, TestCafe looks for a folder named testcafe-reporter-foo in the node_modules folder. So in .testcaferc.json configuration should contains reporter name e.g. 
+TestCafe dynamically loads reporters based on their names. For example, when we set on the command line --reporter foo, TestCafe looks for a folder named testcafe-reporter-foo in the node_modules folder. So .testcaferc.json configuration should contains reporter name e.g. 
 ```
  ...
  "reporter": [
