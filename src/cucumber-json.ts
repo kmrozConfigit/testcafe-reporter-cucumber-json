@@ -306,7 +306,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
       return this;
     }
 
-    const currentStep = steps[step];
+    const currentStep = step !== undefined ? steps[step] : steps[0];
     currentStep.result.error_message = error;
 
     return this;
@@ -339,7 +339,7 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
       return this;
     }
 
-    const currentStep = steps[step];
+    const currentStep = step !== undefined ? steps[step] : steps[0];
     currentStep.image = paths.map(toBase64DataImageUrl).filter(isDefined);
 
     return this;
