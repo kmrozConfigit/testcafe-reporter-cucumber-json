@@ -34,7 +34,7 @@ export function getPlatformFrom(userAgent: string | undefined): Platform {
       ...unknownPlatform,
     };
   }
-  const rawPlatorm = parts.pop();
+  const rawPlatorm = parts[1];
   if (rawPlatorm === undefined) {
     // eslint-disable-next-line no-console
     console.warn(
