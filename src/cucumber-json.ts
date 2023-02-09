@@ -252,6 +252,14 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
       }
 
       // exception for Ubuntu, when testCafe returns Linux 0.0 as a browser
+
+      // eslint-disable-next-line no-console
+      console.warn(
+        `browser: '${browser}',ua: ${ua}, ua: ${ua.replace(
+          /Ubuntu \d+.\d+/,
+          'Linux 0.0',
+        )} `,
+      );
       return ua.replace(/Ubuntu \d+.\d+/, 'Linux 0.0') === browser;
     });
 
