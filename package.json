@@ -1,6 +1,6 @@
 {
   "name": "testcafe-reporter-cucumber-json-gherkin-testcafe",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Cucumber JSON TestCafe reporter plugin for gherkin-testcafe steps.",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
