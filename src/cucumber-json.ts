@@ -246,13 +246,10 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
   };
 
   private getUserAgentFromBrowser(browser: string): string {
+    // eslint-disable-next-line no-console
+    console.warn(`_userAgents: ${this._userAgents.join(';')}`);
+
     const userAgent = this._userAgents.find((ua) => {
-      if (ua.includes('https://')) {
-        return ua.startsWith(`${browser} `);
-      }
-
-      // exception for Ubuntu, when testCafe returns Linux 0.0 as a browser
-
       // eslint-disable-next-line no-console
       console.warn(
         `browser: '${browser}',ua: ${ua}, ua: ${ua.replace(
@@ -260,6 +257,12 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
           'Linux 0.0',
         )} `,
       );
+
+      if (ua.includes('https://')) {
+        return ua.startsWith(`${browser} `);
+      }
+
+      // exception for Ubuntu, when testCafe returns Linux 0.0 as a browser
       return ua.replace(/Ubuntu \d+.\d+/, 'Linux 0.0') === browser;
     });
 
