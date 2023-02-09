@@ -250,7 +250,9 @@ export class CucumberJsonReport implements CucumberJsonReportInterface {
       if (ua.includes('https://')) {
         return ua.startsWith(`${browser} `);
       }
-      return ua === browser;
+
+      // exception for Ubuntu, when testCafe returns Linux 0.0 as a browser
+      return ua.replace(/Ubuntu \d+.\d+/, 'Linux 0.0') === browser;
     });
 
     if (userAgent === undefined) {
